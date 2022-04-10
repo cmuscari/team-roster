@@ -10,7 +10,11 @@ test('creates an employee object', () => {
     expect(employee.email).toBe('eva@gmail.com');
 });
 
+test('assigns an employee name', () => {
+    const employee = new Employee('Eva', 123, 'eva@gmail.com');
 
+    
+})
 
 
 
