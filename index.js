@@ -3,6 +3,8 @@ const inquirer = require('inquirer');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
+const teamArray = [];
+const { writeFile } = require('./src/page-template');
 
 
 
@@ -12,12 +14,19 @@ const startRoster = () => {
     console.log("--------------------------------");
     console.log("START CREATING YOUR TEAM ROSTER!");
     console.log("--------------------------------");
+
+    promptManagerInfo()
+    .then(managerInfo => {
+        const manager = new Manager(managerInfo.name, managerInfo.id, managerInfo.email, managerInfo.officeNum);
+        teamArray.push(manager);
+        promptAddMember();
+    })
 };
 
 
 // prompt user to add another team member function
 const promptAddMember = () => {
-    return inquirer.prompt([
+    inquirer.prompt([
         {
             type: 'confirm',
             name: 'confirmAdd',
@@ -33,16 +42,35 @@ const promptAddMember = () => {
                 if (confirmAdd) {
                     return true;
                 } else {
+                    writeFile();
                     return false;
                 }
             }
         },
     ])
+    .then(choice => {
+        if (choice.addTeamMember === 'Engineer') {
+            promptEngineerInfo()
+            .then(engineerInfo => {
+                const engineer = new Engineer(engineerInfo.name, engineerInfo.id, engineerInfo.email, engineerInfo.github);
+                teamArray.push(engineer);
+                promptAddMember();
+            })
+        }
+        if (choice.addTeamMember === 'Intern') {
+            promptInternInfo()
+            .then(internInfo => {
+                const intern = new Intern(internInfo.name, internInfo.id, internInfo.email, internInfo.school);
+                teamArray.push(intern);
+                promptAddMember();
+            })
+        }
+    })
 };
 
 
 // prompt user for manager info function
-const promptManagerInfo = managerInfo => {
+const promptManagerInfo = () => {
     return inquirer.prompt([
         {
             type: 'input',
@@ -61,11 +89,64 @@ const promptManagerInfo = managerInfo => {
         },
         {
             type: 'input',
-            name: 'officeNumber',
+            name: 'officeNum',
             message: "What is the Team Manager's office number?",
         },
     ]);
-    promptAddMember();
+};
+
+
+// prompt user for engineer info function
+const promptEngineerInfo = () => {
+    return inquirer.prompt([
+        {
+            type: 'input',
+            name: 'name',
+            message: "What is the Engineer's name?",
+        },
+        {
+            type: 'input',
+            name: 'id',
+            message: "What is the Engineer's ID number?",
+        },
+        {
+            type: 'input',
+            name: 'email',
+            message: "What is the Engineer's email address?",
+        },
+        {
+            type: 'input',
+            name: 'github',
+            message: "What is the Engineer's Github username?",
+        },
+    ]);
+};
+
+
+// prompt user for intern info function
+const promptInternInfo = () => {
+    return inquirer.prompt([
+        {
+            type: 'input',
+            name: 'name',
+            message: "What is the Intern's name?",
+        },
+        {
+            type: 'input',
+            name: 'id',
+            message: "What is the Intern's ID number?",
+        },
+        {
+            type: 'input',
+            name: 'email',
+            message: "What is the Intern's email address?",
+        },
+        {
+            type: 'input',
+            name: 'school',
+            message: "What is the Intern's school name?",
+        },
+    ]);
 };
 
 
@@ -92,10 +173,7 @@ const promptManagerInfo = managerInfo => {
 
 // call start function
 startRoster();
-promptManagerInfo()
-    .then(managerInfo => {
-        return
-    })
+
 
 
 
@@ -129,47 +207,3 @@ promptManagerInfo()
 //   });
 
 
-
-// prompt user for profile questions
-const promptUser = () => {
-    return inquirer.prompt([
-        {
-            type: 'input',
-            name: 'name',
-            message: 'What is your name? (Required)',
-            validate: nameInput => {
-                if (nameInput) {
-                    return true;
-                }
-                else {
-                    console.log("Please enter your name!");
-                    return false;
-                }
-            }
-        },
-        {
-            type: 'input',
-            name: 'github',
-            message: 'Enter your GitHub Username'
-        },
-        {
-            type: 'confirm',
-            name: 'confirmAbout',
-            message: 'Would you like to enter some information about yourself for an "About" section?',
-            default: true
-        },
-        {
-            type: 'input',
-            name: 'about',
-            message: 'Provide some information about yourself:',
-            when: ({ confirmAbout }) => {
-                if (confirmAbout) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            }
-        }
-    ]);
-};
