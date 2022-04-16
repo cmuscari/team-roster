@@ -1,23 +1,19 @@
-const fs = require('fs');
-
-
-
-
-
-const generatePageContent = teamArray => {
+const generateCard = teamArray => {
     for (let i = 0; i < teamArray.length; i++) {
-        generateCard(teamArray[i]);
+        let html = `
+        <h1>Role: ${teamArray[i].getRole()}<h1>
+        <h2>Name: ${teamArray[i].name}</h2>
+        <h3>ID Number: ${teamArray[i].id}</h3> 
+        <h3>Email: ${teamArray[i].email}</h3> 
+        `;
     }
-    // take generatePageContent & write file
-    console.log('-----------------------------------------------------');
-    console.log('Thank you! Your new index.html file has been written!');
-    console.log('-----------------------------------------------------');
 };
 
 
 
-const generateCard = (data) => {
-    return `
+
+const generatePageContent = (data) => {
+    let html = `
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,17 +28,11 @@ const generateCard = (data) => {
 </head>
 
 <body>
-    <div>
-        <h1>Name: ${this.name}</h1>
-        <h2>Role: ${this.role}</h2>
-        <h3>ID Number: ${this.id}</h3> 
-        <h3>Email: ${this.email}</h3> 
-        <h3>Office Number: ${this.officeNum}</h3> 
-        <h3>GitHub Username: ${this.github}</h3> 
-        <h3>School: ${this.school}</h3> 
+    ${generateCard(data)}
 </body>
 </html>
 `;
+return html;
 };
 
 

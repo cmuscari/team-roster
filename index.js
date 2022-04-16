@@ -3,7 +3,11 @@ const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 const generatePageContent = require('./utils/generate-site.js');
+const fs = require('fs');
 const teamArray = [];
+
+
+
 
 
 
@@ -24,8 +28,6 @@ const startRoster = () => {
 
 
 
-
-
 // prompt user to add another team member function
 const promptAddMember = () => {
     inquirer.prompt([
@@ -43,14 +45,14 @@ const promptAddMember = () => {
             when: ({ confirmAdd }) => {
                 if (confirmAdd) {
                     return true;
-                } else {
-                    generatePageContent(teamArray);
-                    return false;
                 }
             }
         },
     ])
     .then(choice => {
+        if (!choice.confirmAdd) {
+            writeFile(teamArray);
+        }
         if (choice.addTeamMember === 'Engineer') {
             promptEngineerInfo()
             .then(engineerInfo => {
@@ -152,14 +154,20 @@ const promptInternInfo = () => {
 };
 
 
-
-
-
-
-
-
-
-
+// write file function
+const writeFile = teamArray => {
+    let html = generatePageContent(teamArray);
+    fs.writeFile('./dist/index.html', html, (err) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log('-----------------------------------------------');
+            console.log('Thank you! Your new html file has been written!');
+            console.log('-----------------------------------------------');
+        }
+    });
+};
 
 
 
@@ -175,37 +183,4 @@ const promptInternInfo = () => {
 
 // call start function
 startRoster();
-
-
-
-
-
-
-
-
-
-
-
-
-// // call function - start with promptUser(), then promptProject(), then execute an action with the returned entire portfolioData
-// promptUser()
-//   .then(promptProject)
-//   // take returned entire portfolioData & pass it into the generatePage function that is linked at the top of this file to return generated HTML (stored in the pageHTML variable)
-//   .then(portfolioData => {
-//     return generatePage(portfolioData);
-//   })
-//   .then(pageHTML => {
-//     return writeFile(pageHTML);
-//   })
-//   .then(writeFileResponse => {
-//     console.log(writeFileResponse);
-//     return copyFile();
-//   })
-//   .then(copyFileResponse => {
-//     console.log(copyFileResponse);
-//   })
-//   .catch(err => {
-//     console.log(err);
-//   });
-
 
