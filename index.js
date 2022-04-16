@@ -1,10 +1,9 @@
-const generatePage = require('./src/page-template.js');
 const inquirer = require('inquirer');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
+const generatePageContent = require('./utils/generate-site.js');
 const teamArray = [];
-const { writeFile } = require('./src/page-template');
 
 
 
@@ -22,6 +21,9 @@ const startRoster = () => {
         promptAddMember();
     })
 };
+
+
+
 
 
 // prompt user to add another team member function
@@ -42,7 +44,7 @@ const promptAddMember = () => {
                 if (confirmAdd) {
                     return true;
                 } else {
-                    writeFile();
+                    generatePageContent(teamArray);
                     return false;
                 }
             }
