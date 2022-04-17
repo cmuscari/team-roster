@@ -5,7 +5,7 @@ const generateCard = teamArray => {
         if (teamArray[i].getRole() === "Manager") {
             let managerCard = `
             <div class="col-12 flex-row d-flex">
-                <div class="col-3 border border-dark rounded text-center mb-3">
+                <div class="col-4 border border-dark rounded text-center mb-3">
                     <h1><span class="font-weight-bold">Name: </span>${teamArray[i].name}<h1>
                     <h2><span class="font-weight-bold">Role: </span>${teamArray[i].getRole()}</h2>
                     <h3><span class="font-weight-bold">ID Number: </span>${teamArray[i].id}</h3> 
@@ -19,7 +19,7 @@ const generateCard = teamArray => {
         else if (teamArray[i].getRole() === "Engineer") {
             let engineerCard = `
             <div class="col-12 flex-row d-flex">
-                <div class="col-3 border border-dark rounded text-center mb-3">
+                <div class="col-4 border border-dark rounded text-center mb-3">
                     <h1><span class="font-weight-bold">Name: </span>${teamArray[i].name}<h1>
                     <h2><span class="font-weight-bold">Role: </span>${teamArray[i].getRole()}</h2>
                     <h3><span class="font-weight-bold">ID Number: </span>${teamArray[i].id}</h3> 
@@ -33,7 +33,7 @@ const generateCard = teamArray => {
         else if (teamArray[i].getRole() === "Intern") {
             let internCard = `
             <div class="col-12 flex-row d-flex">
-                <div class="col-3 border border-dark rounded text-center mb-3">
+                <div class="col-4 border border-dark rounded text-center mb-3">
                     <h1><span class="font-weight-bold">Name: </span>${teamArray[i].name}<h1>
                     <h2><span class="font-weight-bold">Role: </span>${teamArray[i].getRole()}</h2>
                     <h3><span class="font-weight-bold">ID Number: </span>${teamArray[i].id}</h3> 
