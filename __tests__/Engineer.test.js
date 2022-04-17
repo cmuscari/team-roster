@@ -1,6 +1,6 @@
 const Engineer = require('../lib/engineer');
 
-describe('engineer', () => {
+describe('Engineer', () => {
     test ('gets the correct name', () => {
         const engineer = new Engineer('Eva', 123, 'eva@gmail.com', 'eva123');
 
